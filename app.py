@@ -26,6 +26,7 @@ def handle_language(data):
 def handle_message(data):
     print("Got the message")
     message = data['message']
+    username = data["username"]
     translations = {}
     for sid, language in client_languages.items():
         if language not in translations:
@@ -33,15 +34,15 @@ def handle_message(data):
             translation = translator.translate(message, dest=language).text
             translations[language] = translation
         # Emit message in the preffered language
-        emit('message', {'message': translations[language]}, room=sid)
+        emit('message', {'message': translations[language], "username": username}, room=sid)
 
-@app.route('/')
-def index():
-    return render_template('index.html', lang_dict = LANGUAGES)
+@app.route("/")
+def sandeshindex():
+    return render_template("index.html", lang_dict = LANGUAGES)
 
-@app.route('/chat')
-def example():
-    return render_template("example.html")
+@app.route("/chat")
+def sandeshchat():
+    return render_template("chat.html")
 
 if __name__ == '__main__':
     socketio.run(app, debug = True)

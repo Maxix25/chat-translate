@@ -1,1 +1,0 @@
-from googletrans import LANGUAGES
